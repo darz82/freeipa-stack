@@ -1,6 +1,10 @@
---hostname=<fully qualified host name>
---domain=<domain name>
---realm=<this should be the domain, but CAPITAL>
---ds-password=<passwd>
---admin-password=<passwd>
+--setup-dns
+--allow-zone-overlap
+--forwarder=10.0.1.1
+--hostname=ipa.whiskey.works
+--domain=whiskey.works
+--realm=WHISKEY.WORKS
+--ds-password=<pw>
+--admin-password=<pw>
+--ntp-pool=pool.ntp.org
 -U
