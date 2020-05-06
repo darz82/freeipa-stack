@@ -1,0 +1,21 @@
+version: '2'
+services:
+  server:
+    build: freeipa-container
+    hostname: ipa.home.murderhaus.com
+    read_only: true
+    volumes:
+      - /infra/host/storage/ipa-data:/data:Z
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    tmpfs:
+      - /run
+      - /tmp
+networks:
+  default:
+    driver: macvlan
+    driver_opts:
+      parent: bond0.1502
+    ipam:
+      config:
+        - subnet: 10.5.2.0/24
+          gateway: 10.5.2.1

@@ -1,0 +1,3 @@
+[submodule "freeipa-container"]
+	path = freeipa-container
+	url = ./freeipa-container
