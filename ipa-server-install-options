@@ -1,0 +1,6 @@
+--hostname=<fully qualified host name>
+--domain=<domain name>
+--realm=<this should be the domain, but CAPITAL>
+--ds-password=<passwd>
+--admin-password=<passwd>
+-U

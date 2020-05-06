@@ -2,16 +2,14 @@ version: '2.3'
 services:
   server:
     build: freeipa-container
-    hostname: ipa.home.murderhaus.com
+    hostname: ipa.whiskey.works
     environment:
-      - IPA_SERVER_HOSTNAME=ipa.home.murderhaus.com
-    stdin_open: true
-    tty: true
-#    read_only: true
+      - IPA_SERVER_HOSTNAME=ipa.whiskey.works
     networks:
       default:
         aliases:
-          - ipa.home.murderhaus.com
+          - ipa.whiskey.works
+          - ns1.murderhaus.com
     volumes:
       - /infra/host/storage/ipa-data:/data:Z
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
