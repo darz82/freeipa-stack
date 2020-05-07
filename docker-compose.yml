@@ -1,12 +1,28 @@
 version: '2.3'
 services:
+  dhcpd:
+    image: networkboot/dhcpd
+    volumes:
+      - ./dhcpd:/data:rw
+    network_mode: host
+#    networks:
+#      mgmt:
+#        ipv4_address: 10.0.4.254
+  tftp:
+    image: pghalliday/tftp
+    volumes:
+      - /infra/host/storage/tftpboot:/var/tftpboot:ro
+    networks:
+      mgmt:
+        ipv4_address: 10.0.4.253
   server:
     build: freeipa-container
     hostname: ipa.whiskey.works
     environment:
       - IPA_SERVER_HOSTNAME=ipa.whiskey.works
     networks:
-      default:
+      dmz:
+        ipv4_address: 10.0.3.2
         aliases:
           - ipa.whiskey.works
           - ns1.murderhaus.com
@@ -17,14 +33,23 @@ services:
       - /run
       - /tmp
 networks:
-  default:
-    enable_ipv6: true
+  mgmt:
     driver: macvlan
     driver_opts:
-      parent: bond0.1502
+      parent: bond0.4
     ipam:
       driver: default
       config:
-        - subnet: 10.5.2.0/24
-          gateway: 10.5.2.1
+        - subnet: 10.0.4.0/24
+          gateway: 10.0.4.1
+  dmz:
+    enable_ipv6: true
+    driver: macvlan
+    driver_opts:
+      parent: bond0.3
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.3.0/24
+          gateway: 10.0.3.1
         - subnet: fd50:8086:becd:e09f::/64
