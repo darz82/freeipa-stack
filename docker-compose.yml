@@ -12,9 +12,12 @@ services:
     image: pghalliday/tftp
     volumes:
       - /infra/host/storage/tftpboot:/var/tftpboot:ro
+#    network_mode: host
+#    ports:
+#      - "69:69/udp"
     networks:
-      mgmt:
-        ipv4_address: 10.0.4.253
+      dmz:
+        ipv4_address: 10.0.2.253
   server:
     build: freeipa-container
     hostname: ipa.whiskey.works
@@ -22,7 +25,7 @@ services:
       - IPA_SERVER_HOSTNAME=ipa.whiskey.works
     networks:
       dmz:
-        ipv4_address: 10.0.3.2
+        ipv4_address: 10.0.2.2
         aliases:
           - ipa.whiskey.works
           - ns1.murderhaus.com
@@ -46,10 +49,10 @@ networks:
     enable_ipv6: true
     driver: macvlan
     driver_opts:
-      parent: bond0.3
+      parent: bond0.2
     ipam:
       driver: default
       config:
-        - subnet: 10.0.3.0/24
-          gateway: 10.0.3.1
+        - subnet: 10.0.2.0/24
+          gateway: 10.0.2.1
         - subnet: fd50:8086:becd:e09f::/64
