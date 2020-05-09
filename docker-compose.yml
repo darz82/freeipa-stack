@@ -1,23 +1,5 @@
 version: '2.3'
 services:
-  dhcpd:
-    image: networkboot/dhcpd
-    volumes:
-      - ./dhcpd:/data:rw
-    network_mode: host
-#    networks:
-#      mgmt:
-#        ipv4_address: 10.0.4.254
-  tftp:
-    image: pghalliday/tftp
-    volumes:
-      - /infra/host/storage/tftpboot:/var/tftpboot:ro
-#    network_mode: host
-#    ports:
-#      - "69:69/udp"
-    networks:
-      dmz:
-        ipv4_address: 10.0.2.253
   server:
     build: freeipa-container
     hostname: ipa.whiskey.works
@@ -36,15 +18,6 @@ services:
       - /run
       - /tmp
 networks:
-  mgmt:
-    driver: macvlan
-    driver_opts:
-      parent: bond0.4
-    ipam:
-      driver: default
-      config:
-        - subnet: 10.0.4.0/24
-          gateway: 10.0.4.1
   dmz:
     enable_ipv6: true
     driver: macvlan
